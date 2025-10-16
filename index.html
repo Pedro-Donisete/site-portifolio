@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title-tag">Pedro Donisete - Analista de Dados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variáveis de Cores */
+        :root {
+            --cor-fundo: #000000;
+            --cor-texto: #ffffff;
+            --cor-destaque: #00bcd4; /* Azul claro para destaque */
+            --cor-secundaria: #333;
+            --cor-divisoria: #3d3d3d;
+            --cor-barra-preenchida: #00bcd4;
+            --cor-barra-vazia: #333333;
+            --cor-ouro: #FFD700; /* Dourado */
+            --cor-azul-prata: #87CEEB; /* Azul Céu para substituir o Prata */
+            --header-height: 60px; /* Definindo a altura do cabeçalho */
+        }
+
+        /* Reset Básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* --- Estilos do Cabeçalho e Navegação --- */
+        header {
+            width: 100%;
+            height: var(--header-height);
+            padding: 0 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            gap: 30px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999; 
+            background-color: var(--cor-fundo);
+            border-bottom: 1px solid var(--cor-divisoria);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-item {
+            color: var(--cor-texto);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            padding-bottom: 5px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--cor-destaque);
+        }
+        
+        /* --- Seletor de Idioma com Imagens --- */
+        #language-switcher {
+            display: flex;
+            align-items: center;
+        }
+
+        .flag-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            opacity: 0.7; 
+            transition: opacity 0.3s, transform 0.3s, border 0.3s;
+        }
+
+        /* Estilo da Imagem da Bandeira */
+        .flag-image {
+            width: 40px; /* Largura da bandeira */
+            height: 25px; /* Altura da bandeira */
+            object-fit: cover; 
+            border: 1px solid var(--cor-divisoria);
+            border-radius: 3px;
+            display: block;
+        }
+
+        .flag-button:hover {
+            opacity: 1;
+        }
+
+        .flag-button.active {
+            opacity: 1;
+            transform: scale(1.1);
+            border: 2px solid var(--cor-destaque); 
+            border-radius: 5px;
+        }
+        
+        /* --- Estilos das Seções/Abas (Conteúdo Principal) --- */
+        main {
+            padding-top: var(--header-height);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content-section {
+            width: 100%;
+            max-width: none;
+            min-height: calc(100vh - var(--header-height));
+            display: none;
+            position: relative;
+        }
+        
+        .content-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1; 
+        }
+
+        /* --- Estilos da Seção INÍCIO --- */
+        #inicio {
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            padding: 50px;
+            background: url('https://i.imgur.com/cU5IEoC.jpeg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+        }
+
+        #inicio::before { background-color: rgba(0, 0, 0, 0.6); }
+        .hero-content-wrapper { position: relative; z-index: 2; width: 100%; margin-top: -15vh; }
+        .hero-content { padding-left: 0; margin-bottom: 30px; }
+        .hero-name { font-size: 5rem; font-weight: 700; line-height: 1; margin-bottom: 5px; text-transform: uppercase; }
+        .hero-title { font-size: 1.2rem; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 20px; }
+        .action-buttons { display: flex; gap: 20px; }
+        .action-button {
+            text-decoration: none; text-transform: uppercase; font-weight: 700; color: var(--cor-texto);
+            background-color: transparent; border: 2px solid var(--cor-destaque); padding: 10px 20px;
+            cursor: pointer; transition: background-color 0.3s, color 0.3s;
+        }
+        .action-button:hover { background-color: var(--cor-destaque); color: var(--cor-fundo); }
+        .social-links { /* Removido */ display: none; } 
+
+
+        /* --- ESTILOS SOBRE, CURRÍCULO, PORTFÓLIO (Fundo e Overlay) --- */
+        #sobre, #curriculo, #portfolio {
+            background: url('https://i.imgur.com/cpx22nr.jpeg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+            padding: 80px 50px;
+            position: relative; /* Para ::before funcionar */
+        }
+        
+        #sobre::before, #curriculo::before, #portfolio::before {
+            background-color: rgba(0, 0, 0, 0.5); 
+        }
+
+        /* SOBRE */
+        #sobre { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 50px; 
+        }
+        .sobre-left-column { flex: 1; position: relative; z-index: 2; /* padding-right: 50px; */ } /* Removido padding, agora ocupa tudo */
+        .sobre-imagem-container { display: none; } /* Removido */
+        .sobre-titulo { font-size: 3rem; margin-bottom: 10px; text-transform: uppercase; }
+        .sobre-email { color: var(--cor-destaque); margin-bottom: 30px; display: block; }
+        .sobre-paragrafo { margin-bottom: 20px; font-size: 1.1rem; }
+        .sobre-imagem { width: 100%; max-width: 400px; height: auto; object-fit: cover; filter: grayscale(100%); }
+        
+        /* Conquistas / Essência (Estrutura de Container) */
+        .subsecao-container { 
+            margin-top: 50px; 
+            border-top: 1px solid var(--cor-divisoria); 
+            padding-top: 30px; 
+        }
+        .subsecao-titulo { 
+            font-size: 2rem; 
+            margin-bottom: 30px; 
+            text-transform: uppercase; 
+            color: var(--cor-destaque); 
+        }
+        .subsecao-item { 
+            display: flex; 
+            gap: 30px; 
+            align-items: flex-start; 
+            margin-bottom: 40px;
+        }
+        .subsecao-imagem-container { 
+            flex-shrink: 0; 
+            width: 250px; 
+            height: 140px; 
+            overflow: hidden; 
+            border: 3px solid var(--cor-destaque); 
+            background-color: var(--cor-fundo);
+        }
+        .subsecao-imagem { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            display: block; 
+        }
+        
+        /* Estilos específicos para a nova seção (Essência) */
+        .essencia-media-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 colunas para fotos/vídeos */
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .essencia-media-item {
+            width: 100%;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: var(--cor-secundaria);
+            border: 1px solid var(--cor-divisoria);
+        }
+        .essencia-media-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+        
+        /* CSS PARA PROPORÇÃO 16:9 DOS VÍDEOS */
+        .video-16-9-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; 
+            overflow: hidden;
+        }
+
+        .video-16-9-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%; 
+            display: block;
+            border: none;
+        }
+
+
+        /* --- CURRÍCULO --- */
+        #curriculo { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 20px;
+            padding-bottom: 100px;
+        }
+        .coluna { 
+            position: relative; 
+            z-index: 2; 
+            padding: 0 20px; 
+            flex: 1 1 30%; 
+            border-right: 1px solid var(--cor-divisoria); 
+            min-width: 280px;
+        }
+        .coluna:last-child { 
+            border-right: none; 
+            flex: 1 1 30%;
+        }
+        .secao-titulo { font-size: 1.5rem; margin-bottom: 15px; padding-bottom: 5px; border-bottom: 2px solid var(--cor-destaque); text-transform: uppercase; }
+        .habilidade-item { margin-bottom: 15px; }
+        .habilidade-label { margin-bottom: 5px; font-weight: 700; }
+        .habilidade-barra { display: flex; gap: 3px; }
+        .quadrado { width: 15px; height: 15px; background-color: var(--cor-barra-vazia); }
+        .preenchido { background-color: var(--cor-barra-preenchida); }
+        .habilidades-pessoais ul { list-style: none; }
+        .habilidades-pessoais li { margin-bottom: 10px; }
+        .experiencia-item { margin-bottom: 25px; display: flex; gap: 15px; align-items: flex-start; }
+        .icone-exp { color: var(--cor-destaque); font-size: 1.5rem; padding-top: 5px; }
+        .empresa { font-weight: 700; text-transform: uppercase; color: var(--cor-destaque); }
+        .periodo { font-size: 0.9rem; color: #ccc; margin-bottom: 5px; }
+        .cargo { font-style: italic; }
+        .lista-contribuicao ul, .lista-hobbies ul { list-style: none; }
+        .lista-contribuicao li { margin-bottom: 10px; font-size: 1.1rem; }
+        .lista-hobbies li { margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .hobby-icone { color: var(--cor-destaque); font-size: 1.2rem; }
+        .download-button {
+            position: absolute; 
+            bottom: 30px; 
+            right: 50px; 
+            z-index: 5; 
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--cor-fundo);
+            background-color: var(--cor-destaque);
+            border: 2px solid var(--cor-destaque);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .download-button:hover {
+            background-color: transparent;
+            color: var(--cor-destaque);
+        }
+
+        .download-icon {
+            font-size: 1.2rem;
+        }
+        
+        /* PORTFÓLIO & MODAL */
+        #portfolio { flex-direction: column; justify-content: flex-start; padding-bottom: 100px; }
+        .portfolio-titulo { position: relative; z-index: 2; font-size: 3rem; margin-bottom: 40px; text-transform: uppercase; color: var(--cor-destaque); text-align: center; width: 100%; }
+        .portfolio-grid { position: relative; z-index: 2; width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; justify-content: center; }
+        .portfolio-item { 
+            background-color: var(--cor-secundaria); 
+            border-radius: 8px; 
+            padding: 20px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative; /* Para a barra de ranking */
+            overflow: hidden; /* Para garantir que a barra fique no topo */
+        }
+        .portfolio-item:hover { transform: scale(1.03); box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5), 0 0 15px var(--cor-destaque); }
+        .projeto-icone { font-size: 4rem; color: var(--cor-destaque); margin-bottom: 15px; padding: 10px; border: 2px solid var(--cor-destaque); border-radius: 50%; }
+        
+        /* Estilos do Ranking de Projetos (NOVO) */
+        .project-ranking {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--cor-divisoria);
+        }
+        
+        .project-ranking .star {
+            color: var(--cor-azul-prata); /* Cor base das estrelas */
+            font-size: 1.1rem;
+            margin: 0 1px;
+        }
+        
+        /* Estilos da barra "Medalha" */
+        .project-bar {
+            height: 5px; /* Altura da barra */
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 0 0 5px 5px; /* Arredondar só a parte de baixo */
+        }
+        
+        .gold-star { color: var(--cor-ouro) !important; }
+        .blue-star { color: var(--cor-azul-prata) !important; } /* Nova classe para estrelas "azuis" */
+        
+        .gold-bar { background-color: var(--cor-ouro); }
+        .blue-bar { background-color: var(--cor-azul-prata); } /* Nova classe para barra "azul" */
+
+
+        .project-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); z-index: 10000; display: none; justify-content: center; align-items: center; overflow-y: auto; padding: var(--header-height) 0; }
+        .modal-content { background-color: var(--cor-fundo); width: 90%; max-width: 1000px; padding: 40px; border-radius: 10px; position: relative; margin: 50px 0; }
+        .close-button { position: absolute; top: 15px; right: 25px; color: #aaa; font-size: 2.5rem; cursor: pointer; }
+        .modal-title { font-size: 2.5rem; text-transform: uppercase; color: var(--cor-destaque); margin-bottom: 20px; }
+        .confidentiality-warning { background-color: var(--cor-secundaria); border-left: 5px solid #ffc107; padding: 15px; margin-bottom: 30px; }
+        /* Estilo para o container de imagem/dashboard no modal */
+        .modal-image-container {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px solid var(--cor-destaque); /* Destaque na borda */
+            padding: 10px;
+        }
+        .modal-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+        }
+        .modal-body-text {
+            white-space: pre-wrap; /* Mantém a formatação de nova linha do JS */
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-links">
+            <a id="nav-inicio" class="nav-item active" data-lang-key="nav_inicio" onclick="showSection('inicio')">Início</a>
+            <a id="nav-sobre" class="nav-item" data-lang-key="nav_sobre" onclick="showSection('sobre')">Sobre</a>
+            <a id="nav-curriculo" class="nav-item" data-lang-key="nav_curriculo" onclick="showSection('curriculo')">Currículo</a>
+            <a id="nav-portfolio" class="nav-item" data-lang-key="nav_portfolio" onclick="showSection('portfolio')">Portfólio</a>
+        </div>
+        
+        <div id="language-switcher">
+            <button id="lang-pt" class="flag-button active" onclick="setLanguage('pt')">
+                <img src="https://flagcdn.com/w40/br.png" alt="Bandeira do Brasil" class="flag-image">
+            </button>
+            <button id="lang-en" class="flag-button" onclick="setLanguage('en')">
+                <img src="https://flagcdn.com/w40/us.png" alt="Bandeira dos EUA" class="flag-image">
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="content-section">
+            <div class="hero-content-wrapper">
+                <div class="hero-content">
+                    <div class="hero-name">PEDRO</div>
+                    <div class="hero-name">DONISETE</div>
+                    <div class="hero-title" data-lang-key="inicio_cargo_principal">ANALISTA DE DADOS</div>
+                </div>
+                <div class="action-buttons">
+                    <a class="action-button" data-lang-key="nav_sobre" onclick="showSection('sobre')">Sobre</a>
+                    <a class="action-button" data-lang-key="btn_portfolio" onclick="showSection('portfolio')">Portfólio</a>
+                </div>
+            </div>
+            </section>
+
+        <section id="sobre" class="content-section" style="display: none;">
+            
+            <div class="sobre-left-column">
+                <div class="sobre-texto">
+                    <h1 class="sobre-titulo" data-lang-key="sobre_titulo">Quem sou eu profissionalmente?</h1>
+                    <span class="sobre-email">pedro.donisete@outlook.com</span>
+                    <p class="sobre-paragrafo" data-lang-key="sobre_p1">Eu sou Pedro Donisete, profissional da área de logística e análise de dados, atuando como Expeditor na CRANE Worldwide Logistics. Minha missão é transformar informações em soluções práticas — conectando dados, pessoas e resultados.</p>
+                    <p class="sobre-paragrafo" data-lang-key="sobre_p2">Antes de entrar no universo dos dados e da logística, atuei como designer e editor de vídeos, o que me trouxe uma visão criativa e estética que aplico até hoje na criação de dashboards e soluções visuais.</p>
+                    <p class="sobre-paragrafo" data-lang-key="sobre_p3">Acredito que a combinação entre lógica e criatividade é o que torna qualquer análise realmente poderosa — e é com essa mentalidade que busco evoluir a cada projeto.</p>
+                </div>
+                
+                <div class="subsecao-container">
+                    <h2 class="subsecao-titulo" data-lang-key="conquistas_titulo">Conquistas</h2>
+                    <div class="subsecao-item">
+                        <div class="subsecao-imagem-container">
+                            <img src="https://i.imgur.com/7VI2WbZ.jpeg" alt="Certificado Funcionário do Quarter" class="subsecao-imagem">
+                        </div>
+                        <div class="subsecao-texto">
+                            <h3 data-lang-key="conquista_h3">Funcionário do Quarter – Q2 2025 | CRANE Worldwide Logistics</h3>
+                            <p data-lang-key="conquista_p1">Eleito Funcionário do Quarter no segundo trimestre de 2025, em uma empresa com mais de 100 colaboradores atuando em diversas áreas como Pricing, Desembaraço Aduaneiro, Operações, Expediting, Billing e outros setores estratégicos.</p>
+                            <p data-lang-key="conquista_p2">O reconhecimento veio como resultado de um trabalho consistente e proativo na área de Expediting e Análise de Dados, com destaque para a estruturação de planos de ação voltados à redução de atrasos, criação de dashboards em Power BI e automações de fluxo com Power Automate, que otimizaram a comunicação e o acompanhamento de POs.</p>
+                            <p data-lang-key="conquista_p3">A conquista reflete não apenas desempenho técnico, mas também maturidade, iniciativa e liderança — especialmente notável por ter sido alcançada ainda jovem, em um ambiente corporativo de alta responsabilidade e ritmo acelerado. Mais do que um prêmio, o reconhecimento simboliza a evolução de uma trajetória construída com dedicação, curiosidade por aprender e o desejo constante de entregar resultados cada vez mais eficientes e inteligentes.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="subsecao-container">
+                    <h2 class="subsecao-titulo" data-lang-key="essencia_titulo">Minha essência fora do crachá</h2>
+                    <div class="subsecao-texto">
+                        <p data-lang-key="essencia_p1">Acredito que o ambiente de trabalho pode — e deve — ser leve, criativo e humano.</p>
+                        <p data-lang-key="essencia_p2">Sou movido por boas ideias, colaboração e bom humor.</p>
+                        <p data-lang-key="essencia_p3">Na CRANE, já fui reconhecido não só pelos resultados, mas também por levar alegria e energia pro time — inclusive vencendo o concurso de melhor fantasia de Halloween, e dando vida ao lendário “Freddy Mercury Prateado” no carnaval da empresa. 😎</p>
+                        <p data-lang-key="essencia_p4">Gosto de quebrar a ideia de um mundo corporativo preto e branco.</p>
+                        <p data-lang-key="essencia_p5">Pra mim, um time motivado e em um ambiente leve entrega mais, cresce mais e cria mais.</p>
+                        <p data-lang-key="essencia_p6">Essa é a cultura que acredito — e que tento espalhar onde quer que eu vá. 🚀</p>
+                    </div>
+                    
+                    <div class="essencia-media-grid">
+                        
+                        <div class="essencia-media-item">
+                            <img src="https://i.imgur.com/AJys3Gq.jpeg" alt="Pedro Donisete fantasiado de Freddy Mercury Prateado">
+                        </div>
+                        
+                        <div class="essencia-media-item">
+                            <img src="https://i.imgur.com/vSnq87H.jpeg" alt="Pedro Donisete fantasiado de Jigsaw">
+                        </div>
+                        
+                        <div class="essencia-media-item video-16-9-container">
+                             <iframe 
+                                 src="https://player.vimeo.com/video/1127316625?dnt=1&h=f130b9122a&app_id=122963&title=0&byline=0&portrait=0&badge=0&loop=1" 
+                                frameborder="0" 
+                                allow="autoplay; fullscreen; picture-in-picture; volume" 
+                                allowfullscreen
+                                title="Vídeo de Jigsaw (1)"
+                            ></iframe>
+                        </div>
+
+                        <div class="essencia-media-item video-16-9-container">
+                            <iframe 
+                                src="https://player.vimeo.com/video/1127316607?dnt=1&h=f130b9122a&app_id=122963&title=0&byline=0&portrait=0&badge=0&loop=1" 
+                                frameborder="0" 
+                                allow="autoplay; fullscreen; picture-in-picture; volume" 
+                                allowfullscreen
+                                title="Vídeo de Jigsaw (2)"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            </section>
+
+        <section id="curriculo" class="content-section" style="display: none;">
+            <div class="coluna">
+                <div class="habilidades-software">
+                    <h2 class="secao-titulo" data-lang-key="curriculo_software_titulo">Habilidades em Software</h2>
+                    
+                    <div id="habilidades-container"></div>
+
+                </div>
+
+                <div class="habilidades-pessoais" style="margin-top: 40px;">
+                    <h2 class="secao-titulo" data-lang-key="curriculo_pessoais_titulo">Habilidades Pessoais</h2>
+                    <ul>
+                        <li data-lang-key="hp_1">Organização e Análise</li>
+                        <li data-lang-key="hp_2">Comunicação Clara</li>
+                        <li data-lang-key="hp_3">Resolução de Problemas</li>
+                        <li data-lang-key="hp_4">Trabalho em Equipe</li>
+                        <li data-lang-key="hp_5">Criatividade e Automação</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="coluna">
+                <div class="experiencia">
+                    <h2 class="secao-titulo" data-lang-key="curriculo_experiencia_titulo">Experiência</h2>
+                    
+                    <div class="experiencia-item">
+                        <i class="fas fa-briefcase icone-exp"></i>
+                        <div class="exp-info">
+                            <div class="empresa">CRANE WORLDWIDE LOGISTICS</div>
+                            <div class="periodo" data-lang-key="exp1_periodo">2025 - atualmente</div>
+                            <div class="cargo" data-lang-key="exp1_cargo">Analista de Contas Júnior – SEADRILL Account</div>
+                        </div>
+                    </div>
+
+                    <div class="experiencia-item">
+                        <i class="fas fa-briefcase icone-exp"></i>
+                        <div class="exp-info">
+                            <div class="empresa">CRANE WORLDWIDE LOGISTICS</div>
+                            <div class="periodo" data-lang-key="exp2_periodo">2024 - 2025</div>
+                            <div class="cargo" data-lang-key="exp2_cargo">Assistente de Contas Júnior – MODEC Account</div>
+                        </div>
+                    </div>
+
+                    <div class="experiencia-item">
+                        <i class="fas fa-video icone-exp"></i>
+                        <div class="exp-info">
+                            <div class="empresa">Freelancer</div>
+                            <div class="periodo" data-lang-key="exp3_periodo">2019 - 2023</div>
+                            <div class="cargo" data-lang-key="exp3_cargo">Designer & Editor de Vídeos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formacao-academica">
+                    <h2 class="secao-titulo" data-lang-key="curriculo_formacao_titulo">Formação Acadêmica</h2>
+                    <p data-lang-key="formacao_curso">Logística (cursando) - Estácio</p>
+                </div>
+            </div>
+
+            <div class="coluna">
+                <div class="lista-contribuicao">
+                    <h2 class="secao-titulo" data-lang-key="curriculo_contribuicao_titulo">Como Posso Contribuir</h2>
+                    <ul>
+                        <li data-lang-key="contri_1">Desenvolvimento de dashboards</li>
+                        <li data-lang-key="contri_2">Indicadores de performance</li>
+                        <li data-lang-key="contri_3">Automação de processos com Power Automate</li>
+                        <li data-lang-key="contri_4">Análise e tratamento de dados logísticos</li>
+                        <li data-lang-key="contri_5">Otimização de fluxos e acompanhamento de pedidos</li>
+                    </ul>
+                </div>
+
+                <div class="lista-hobbies" style="margin-top: 40px;">
+                    <h2 class="secao-titulo" data-lang-key="curriculo_hobbies_titulo">Hobbies e Interesses</h2>
+                    <ul>
+                        <li data-lang-key="hobby_1"><i class="fas fa-running hobby-icone"></i> Corridas de rua</li>
+                        <li data-lang-key="hobby_2"><i class="fas fa-pen-nib hobby-icone"></i> Criação de conteúdo</li>
+                        <li data-lang-key="hobby_3"><i class="fas fa-chart-bar hobby-icone"></i> Tecnologia e dados</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <a 
+                href="https://drive.usercontent.google.com/uc?id=1rbO55Q5lK7jplI6MoMyhJxyOA7CicVqE&export=download" 
+                download="Pedro_Donisete_CV.pdf"
+                class="download-button"
+                data-lang-key="btn_download_cv"
+            >
+                <i class="fas fa-file-pdf download-icon"></i>
+                Baixar Currículo (PDF)
+            </a>
+            
+        </section>
+        
+        <section id="portfolio" class="content-section" style="display: none;">
+            <h1 class="portfolio-titulo" data-lang-key="portfolio_titulo">Portfólio & Projetos</h1>
+            
+            <div class="portfolio-grid">
+                
+                <a onclick="openProjectDetails('proj1')" class="portfolio-item">
+                    <div class="project-ranking">
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="far fa-star blue-star star"></i>
+                        <div class="project-bar blue-bar"></div>
+                    </div>
+                    <i class="fas fa-box-open projeto-icone"></i>
+                    <h2 class="projeto-titulo" data-lang-key="proj1_titulo">Otimização do Processo de Acompanhamento de Pedidos</h2>
+                    <span class="projeto-data" data-lang-key="proj1_data">📦 Março de 2025</span>
+                    <p class="projeto-resumo" data-lang-key="proj1_resumo">Projeto voltado ao redesenho das rotinas de follow-up e controle de pedidos junto ao cliente. Ação que envolveu a criação de novos *remarks* padronizados, melhorando a comunicação e resultando em um processo mais ágil e rastreável, reduzindo atrasos e fortalecendo a qualidade das informações.</p>
+                </a>
+                
+                <a onclick="openProjectDetails('proj2')" class="portfolio-item">
+                    <div class="project-ranking">
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <div class="project-bar gold-bar"></div>
+                    </div>
+                    <i class="fas fa-cogs projeto-icone"></i>
+                    <h2 class="projeto-titulo" data-lang-key="proj2_titulo">Automatizações nos Processos de Expediting</h2>
+                    <span class="projeto-data" data-lang-key="proj2_data">⚙️ Julho de 2025</span>
+                    <p class="projeto-resumo" data-lang-key="proj2_resumo">Desenvolvimento de fluxos automatizados utilizando Power Automate, com foco em eliminar tarefas manuais e otimizar o acompanhamento de POs. As automações notificam responsáveis, atualizam status e geram alertas em tempo real, aumentando a produtividade e reduzindo falhas humanas.</p>
+                </a>
+                
+                <a onclick="openProjectDetails('proj3')" class="portfolio-item">
+                    <div class="project-ranking">
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <i class="fas fa-star gold-star star"></i>
+                        <div class="project-bar gold-bar"></div>
+                    </div>
+                    <i class="fas fa-chart-bar projeto-icone"></i>
+                    <h2 class="projeto-titulo" data-lang-key="proj3_titulo">Power BI Interno para o Time de Expediting</h2>
+                    <span class="projeto-data" data-lang-key="proj3_data">📊 Agosto de 2025</span>
+                    <p class="projeto-resumo" data-lang-key="proj3_resumo">Criação de um dashboard interno em Power BI para o monitoramento de pedidos, desempenho e status de follow-up. O painel reuniu informações antes dispersas em planilhas, transformando dados brutos em indicadores visuais para apoiar as decisões diárias e reforçar a cultura de dados.</p>
+                </a>
+
+                <a onclick="openProjectDetails('proj4')" class="portfolio-item">
+                    <div class="project-ranking">
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="fas fa-star blue-star star"></i>
+                        <i class="far fa-star blue-star star"></i> 
+                        <div class="project-bar blue-bar"></div>
+                    </div>
+                    <i class="fas fa-code projeto-icone"></i>
+                    <h2 class="projeto-titulo" data-lang-key="proj4_titulo">Criação do Meu Site de Portfólio</h2>
+                    <span class="projeto-data" data-lang-key="proj4_data">💻 Outubro de 2025</span>
+                    <p class="projeto-resumo" data-lang-key="proj4_resumo">Desenvolvimento completo do meu site de portfólio pessoal, um projeto que reflete tanto minha identidade profissional quanto minhas habilidades técnicas e criativas. É um exemplo prático da minha capacidade de unir estética, clareza e funcionalidade, demonstrando domínio em design, análise de informação e comunicação visual.</p>
+                </a>
+                
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="project-modal" class="project-modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeProjectDetails()">&times;</span>
+            
+            <h1 id="modal-title" class="modal-title">Título do Projeto</h1>
+
+            <div class="confidentiality-warning">
+                <span class="warning-text" data-lang-key="warning_title">⚠️ Aviso de Confidencialidade</span>
+                <span id="warning-message" data-lang-key="warning_text"></span>
+            </div>
+            
+            <div id="modal-image-container" class="modal-image-container">
+                </div>
+
+            <p id="modal-body-text" class="modal-body-text">
+                [Texto Detalhado do Projeto será carregado aqui.]
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // --- DADOS PARA HABILIDADES (CURRÍCULO) ---
+        const softwareSkills = [
+            { label: 'Power BI', level: 4 }, // Ajustado para 4 estrelas
+            { label: 'Power Automate', level: 5 }, // Ajustado para 5 estrelas
+            { label: 'Excel', level: 5 },
+            { label: 'SharePoint', level: 4 },
+            { label: 'Power Apps', level: 3 }
+        ];
+
+        // Função para gerar as barras de habilidade
+        function renderSoftwareSkills() {
+            const container = document.getElementById('habilidades-container');
+            if (!container) return; 
+            
+            let html = '';
+            
+            softwareSkills.forEach(skill => {
+                let barraHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    barraHtml += `<div class="quadrado ${i <= skill.level ? 'preenchido' : ''}"></div>`;
+                }
+                
+                html += `
+                    <div class="habilidade-item">
+                        <div class="habilidade-label">${skill.label}</div>
+                        <div class="habilidade-barra">${barraHtml}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // --- DADOS E FUNÇÕES DO MODAL DE PROJETOS (CORRIGIDO) ---
+        
+        // URLs de Imagens/Placeholders para os projetos do portfólio
+        const projectImages = {
+            'proj1': '<img src="https://i.imgur.com/PTs486k.jpeg" alt="Exemplo de Otimização de Processo">',
+            'proj2': '<img src="https://i.imgur.com/TgOu8m1.jpeg" alt="Exemplo de Fluxograma Power Automate">', // NOVA IMAGEM
+            'proj3': '<img src="https://i.imgur.com/gXawNYy.jpeg" alt="Exemplo de Dashboard Power BI">', // NOVA IMAGEM
+            'proj4': '<img src="https://i.imgur.com/Rpxfnu2.jpeg" alt="Layout do Site de Portfólio">', // NOVA IMAGEM
+        };
+
+        const projectDetails = {
+            'proj1': {
+                pt: {
+                    title: 'Otimização do Processo de Acompanhamento de Pedidos',
+                    image_html: projectImages['proj1'],
+                    text: 'No projeto, fui responsável por aprimorar o acompanhamento dos pedidos de compra do Cliente, garantindo maior controle e agilidade no processo. Entre as principais entregas, destaquei:\n\nImplementação de novos remarks no sistema para registrar informações críticas, facilitando a comunicação com fornecedores e a equipe interna.\nEstruturação de relatórios detalhados que permitiram identificar atrasos e gargalos no processo de forma rápida e eficiente.\nCriação de um fluxo de acompanhamento padronizado, que diminuiu o número de pedidos em atraso e aumentou a assertividade das informações reportadas.\nColaboração direta com fornecedores estratégicos, promovendo reuniões semanais para alinhamento e resolução de pendências.\nO resultado foi um processo mais transparente, com maior previsibilidade e menos retrabalho, contribuindo diretamente para a eficiência operacional do Cliente.',
+                },
+                en: {
+                    title: 'Order Tracking Process Optimization',
+                    image_html: projectImages['proj1'],
+                    text: 'In this project, I was responsible for enhancing the tracking of client purchase orders, ensuring greater control and agility in the process. Key deliverables included:\n\nImplementation of new remarks in the system to record critical information, facilitating communication with suppliers and the internal team.\nStructuring detailed reports that allowed for quick and efficient identification of delays and bottlenecks in the process.\nCreation of a standardized tracking flow, which reduced the number of overdue orders and increased the accuracy of reported information.\nDirect collaboration with strategic suppliers, promoting weekly meetings for alignment and issue resolution.\nThe result was a more transparent process, with greater predictability and less rework, directly contributing to the client\'s operational efficiency.',
+                }
+            },
+            'proj2': {
+                pt: {
+                    title: 'Automatizações nos Processos de Expediting',
+                    image_html: projectImages['proj2'],
+                    text: 'Criação de soluções de automação utilizando o Microsoft Power Automate para tarefas repetitivas no setor de Expediting. Fluxos de aprovação automáticos e notificações personalizadas via e-mail e Teams. Isso liberou mais de 10 horas semanais do time para focarem em tarefas estratégicas.\n\n**Tecnologias:** Power Automate, SharePoint Lists, Outlook. **Resultado:** Redução de 90% dos erros de lançamento manual de dados em etapas chave do processo.',
+                },
+                en: {
+                    title: 'Automation in Expediting Processes',
+                    image_html: projectImages['proj2'],
+                    text: 'Creation of automation solutions using Microsoft Power Automate for repetitive tasks in the Expediting sector. Automatic approval flows and personalized notifications via email and Teams. This freed up over 10 hours per week for the team to focus on strategic tasks.\n\n**Technologies:** Power Automate, SharePoint Lists, Outlook. **Result:** 90% reduction in manual data entry errors in key process stages.',
+                }
+            },
+            'proj3': {
+                pt: {
+                    title: 'Power BI Interno para o Time de Expediting',
+                    image_html: projectImages['proj3'],
+                    text: 'Desenvolvimento de um dashboard interativo em Power BI que consolida dados de rastreamento, performance e tempo de ciclo. O painel fornece uma visão 360º do status da conta, permitindo que a liderança tome decisões baseadas em dados em tempo real.\n\n**Tecnologias:** Power BI, Power Query (M), DAX, Fonte de Dados SAP. **Foco:** Visualização clara de gargalos logísticos e monitoramento de KPIs de entrega.',
+                },
+                en: {
+                    title: 'In-House Power BI for the Expediting Team',
+                    image_html: projectImages['proj3'],
+                    text: 'Development of an interactive Power BI dashboard that consolidates tracking data, performance, and cycle time. The panel provides a 360º view of the account status, allowing leadership to make real-time data-driven decisions.\n\n**Technologies:** Power BI, Power Query (M), DAX, SAP Data Source. **Focus:** Clear visualization of logistical bottlenecks and monitoring of delivery KPIs.',
+                }
+            },
+            'proj4': {
+                pt: {
+                    title: 'Criação do Meu Site de Portfólio',
+                    image_html: projectImages['proj4'],
+                    text: 'Este site foi concebido e desenvolvido inteiramente por mim, com o objetivo de demonstrar minhas competências em análise, comunicação visual, design e, é claro, desenvolvimento web (HTML, CSS, JavaScript).\n\n**Objetivo:** Criar uma experiência de usuário (UX) intuitiva e moderna, que apresente meu currículo e projetos de forma clara, utilizando princípios de design minimalista e Dark Mode. **Habilidades Demonstradas:** Responsividade, manipulação de DOM (JavaScript) e proficiência em CSS/HTML.',
+                },
+                en: {
+                    title: 'Personal Portfolio Website Creation',
+                    image_html: projectImages['proj4'],
+                    text: 'This website was entirely conceived and developed by me, aiming to demonstrate my competencies in analysis, visual communication, design, and, of course, web development (HTML, CSS, JavaScript).\n\n**Objective:** Create an intuitive and modern user experience (UX) that clearly presents my resume and projects, using minimalist design principles and Dark Mode. **Skills Demonstrated:** Responsiveness, DOM manipulation (JavaScript), and proficiency in CSS/HTML.',
+                }
+            }
+        };
+
+        function loadProjectContent(projectId, lang) {
+            const currentLang = lang || (document.getElementById('lang-pt').classList.contains('active') ? 'pt' : 'en');
+            const project = projectDetails[projectId][currentLang];
+            
+            if (project) {
+                document.getElementById('modal-title').textContent = project.title;
+                // Inserindo HTML no container de imagem
+                document.getElementById('modal-image-container').innerHTML = project.image_html; 
+                document.getElementById('modal-body-text').textContent = project.text;
+            }
+            
+            const warningTitle = translations[currentLang]['warning_title'];
+            const warningText = translations[currentLang]['warning_text'];
+            
+            document.querySelector('.warning-text').textContent = warningTitle;
+            document.getElementById('warning-message').textContent = warningText;
+            document.getElementById('project-modal').dataset.projectId = projectId;
+        }
+
+        function openProjectDetails(projectId) {
+            loadProjectContent(projectId);
+            document.getElementById('project-modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeProjectDetails(event) {
+            const modal = document.getElementById('project-modal');
+            
+            if (!event || event.target === modal || event.target.classList.contains('close-button')) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; 
+            }
+        }
+        
+        // --- OBJETO DE TRADUÇÃO COMPLETO ---
+        const translations = {
+            'pt': {
+                'title-tag': 'Pedro Donisete - Analista de Dados',
+                'nav_inicio': 'Início', 'nav_sobre': 'Sobre', 'nav_curriculo': 'Currículo', 'nav_portfolio': 'Portfólio',
+                'inicio_cargo_principal': 'ANALISTA DE DADOS', 'btn_curriculo': 'Currículo', 'btn_portfolio': 'Portfólio',
+                'sobre_titulo': 'Quem sou eu profissionalmente?', 
+                'sobre_p1': 'Eu sou Pedro Donisete, profissional da área de logística e análise de dados, atuando como Expeditor na CRANE Worldwide Logistics. Minha missão é transformar informações em soluções práticas — conectando dados, pessoas e resultados.',
+                'sobre_p2': 'Antes de entrar no universo dos dados e da logística, atuei como designer e editor de vídeos, o que me trouxe uma visão criativa e estética que aplico até hoje na criação de dashboards e soluções visuais.',
+                'sobre_p3': 'Acredito que a combinação entre lógica e criatividade é o que torna qualquer análise realmente poderosa — e é com essa mentalidade que busco evoluir a cada projeto.',
+                'conquistas_titulo': 'Conquistas',
+                'conquista_h3': 'Funcionário do Quarter – Q2 2025 | CRANE Worldwide Logistics',
+                'conquista_p1': 'Eleito Funcionário do Quarter no segundo trimestre de 2025, em uma empresa com mais de 100 colaboradores atuando em diversas áreas como Pricing, Desembaraço Aduaneiro, Operações, Expediting, Billing e outros setores estratégicos.',
+                'conquista_p2': 'O reconhecimento veio como resultado de um trabalho consistente e proativo na área de Expediting e Análise de Dados, com destaque para a estruturação de planos de ação voltados à redução de atrasos, criação de dashboards em Power BI e automações de fluxo com Power Automate, que otimizaram a comunicação e o acompanhamento de POs.',
+                'conquista_p3': 'A conquista reflete não apenas desempenho técnico, mas também maturidade, iniciativa e liderança — especialmente notável por ter sido alcançada ainda jovem, em um ambiente corporativo de alta responsabilidade e ritmo acelerado. Mais do que um prêmio, o reconhecimento simboliza a evolução de uma trajetória construída com dedicação, curiosidade por aprender e o desejo constante de entregar resultados cada vez mais eficientes e inteligentes.',
+                'essencia_titulo': 'Minha essência fora do crachá',
+                'essencia_p1': 'Acredito que o ambiente de trabalho pode — e deve — ser leve, criativo e humano.',
+                'essencia_p2': 'Sou movido por boas ideias, colaboração e bom humor.',
+                'essencia_p3': 'Na CRANE, já fui reconhecido não só pelos resultados, mas também por levar alegria e energia pro time — inclusive vencendo o concurso de melhor fantasia de Halloween, e dando vida ao lendário “Freddy Mercury Prateado” no carnaval da empresa. 😎',
+                'essencia_p4': 'Gosto de quebrar a ideia de um mundo corporativo preto e branco.',
+                'essencia_p5': 'Pra mim, um time motivado e em um ambiente leve entrega mais, cresce mais e cria mais.',
+                'essencia_p6': 'Essa é a cultura que acredito — e que tento espalhar onde quer que eu vá. 🚀',
+                'curriculo_software_titulo': 'Habilidades em Software',
+                'curriculo_pessoais_titulo': 'Habilidades Pessoais',
+                'hp_1': 'Organização e Análise', 'hp_2': 'Comunicação Clara', 'hp_3': 'Resolução de Problemas', 'hp_4': 'Trabalho em Equipe', 'hp_5': 'Criatividade e Automação',
+                'curriculo_experiencia_titulo': 'Experiência',
+                'exp1_periodo': '2025 - atualmente', 'exp1_cargo': 'Analista de Contas Júnior – SEADRILL Account',
+                'exp2_periodo': '2024 - 2025', 'exp2_cargo': 'Assistente de Contas Júnior – MODEC Account',
+                'exp3_periodo': '2019 - 2023', 'exp3_cargo': 'Designer & Editor de Vídeos',
+                'curriculo_formacao_titulo': 'Formação Acadêmica',
+                'formacao_curso': 'Logística (cursando) - Estácio', // "Tecnólogo" removido
+                'curriculo_contribuicao_titulo': 'Como Posso Contribuir',
+                'contri_1': 'Desenvolvimento de dashboards', 'contri_2': 'Indicadores de performance', 'contri_3': 'Automação de processos com Power Automate', 'contri_4': 'Análise e tratamento de dados logísticos', 'contri_5': 'Otimização de fluxos e acompanhamento de pedidos',
+                'curriculo_hobbies_titulo': 'Hobbies e Interesses',
+                'hobby_1': 'Corridas de rua', 'hobby_2': 'Criação de conteúdo', 'hobby_3': 'Tecnologia e dados',
+                'portfolio_titulo': 'Portfólio & Projetos',
+                'proj1_titulo': 'Otimização do Processo de Acompanhamento de Pedidos', 'proj1_data': '📦 Março de 2025', 'proj1_resumo': 'Projeto voltado ao redesenho das rotinas de follow-up e controle de pedidos junto ao cliente. Ação que envolveu a criação de novos *remarks* padronizados, melhorando a comunicação e resultando em um processo mais ágil e rastreável, reduzindo atrasos e fortalecendo a qualidade das informações.',
+                'proj2_titulo': 'Automatizações nos Processos de Expediting', 'proj2_data': '⚙️ Julho de 2025', 'proj2_resumo': 'Desenvolvimento de fluxos automatizados utilizando Power Automate, com foco em eliminar tarefas manuais e otimizar o acompanhamento de POs. As automações notificam responsáveis, atualizam status e geram alertas em tempo real, aumentando a produtividade e reduzindo falhas humanas.',
+                'proj3_titulo': 'Power BI Interno para o Time de Expediting', 'proj3_data': '📊 Agosto de 2025', 'proj3_resumo': 'Criação de um dashboard interno em Power BI para o monitoramento de pedidos, desempenho e status de follow-up. O painel reuniu informações antes dispersas em planilhas, transformando dados brutos em indicadores visuais para apoiar as decisões diárias e reforçar a cultura de dados.',
+                'proj4_titulo': 'Criação do Meu Site de Portfólio', 'proj4_data': '💻 Outubro de 2025', 'proj4_resumo': 'Desenvolvimento completo do meu site de portfólio pessoal, um projeto que reflete tanto minha identidade profissional quanto minhas habilidades técnicas e criativas. É um exemplo prático da minha capacidade de unir estética, clareza e funcionalidade, demonstrando domínio em design, análise de informação e comunicação visual.',
+                'btn_download_cv': 'Baixar Currículo (PDF)',
+                'warning_title': '⚠️ Aviso de Confidencialidade',
+                'warning_text': 'Os projetos apresentados a seguir tiveram todos os nomes de pessoas, entidades, valores e informações sensíveis ajustados ou substituídos por dados fictícios, a fim de preservar a confidencialidade e a integridade das organizações envolvidas. Os contextos e resultados permanecem fiéis às experiências reais vividas durante o desenvolvimento de cada projeto.'
+            },
+            'en': {
+                'title-tag': 'Pedro Donisete - Data Analyst',
+                'nav_inicio': 'Home', 'nav_sobre': 'About', 'nav_curriculo': 'Resume', 'nav_portfolio': 'Portfolio',
+                'inicio_cargo_principal': 'DATA ANALYST', 'btn_curriculo': 'Resume', 'btn_portfolio': 'Portfolio',
+                'sobre_titulo': 'Who am I professionally?', 
+                'sobre_p1': 'I am Pedro Donisete, a logistics and data analysis professional, currently working as an Expeditor at CRANE Worldwide Logistics. My mission is to transform information into practical solutions — connecting data, people, and results.',
+                'sobre_p2': 'Before entering the world of data and logistics, I worked as a designer and video editor, which gave me a creative and aesthetic vision that I apply to this day in creating dashboards and visual solutions.',
+                'sobre_p3': 'I believe that the combination of logic and creativity is what makes any analysis truly powerful — and it is with this mindset that I seek to evolve with every project.',
+                'conquistas_titulo': 'Achievements',
+                'conquista_h3': 'Employee of the Quarter – Q2 2025 | CRANE Worldwide Logistics',
+                'conquista_p1': 'Voted Employee of the Quarter in the second quarter of 2025, in a company with over 100 employees across various areas such as Pricing, Customs Clearance, Operations, Expediting, Billing, and other strategic sectors.',
+                'conquista_p2': 'The recognition came as a result of consistent and proactive work in Expediting and Data Analysis, highlighted by structuring action plans focused on reducing delays, creating Power BI dashboards, and automating workflows with Power Automate, which optimized communication and PO tracking.',
+                'conquista_p3': 'This achievement reflects not only technical performance but also maturity, initiative, and leadership — especially notable for being achieved at a young age in a high-responsibility, fast-paced corporate environment. More than an award, the recognition symbolizes the evolution of a trajectory built with dedication, curiosity to learn, and the constant desire to deliver increasingly efficient and intelligent results.',
+                'essencia_titulo': 'My essence outside the badge',
+                'essencia_p1': 'I believe that the work environment can — and should — be light, creative, and human.',
+                'essencia_p2': 'I am driven by good ideas, collaboration, and good humor.',
+                'essencia_p3': 'At CRANE, I have been recognized not only for results but also for bringing joy and energy to the team — including winning the best Halloween costume contest, and bringing the legendary "Silver Freddy Mercury" to life at the company carnival. 😎',
+                'essencia_p4': 'I like to break the idea of a black-and-white corporate world.',
+                'essencia_p5': 'For me, a motivated team in a light environment delivers more, grows more, and creates more.',
+                'essencia_p6': 'This is the culture I believe in — and that I try to spread wherever I go. 🚀',
+                'curriculo_software_titulo': 'Software Skills',
+                'curriculo_pessoais_titulo': 'Personal Skills',
+                'hp_1': 'Organization and Analysis', 'hp_2': 'Clear Communication', 'hp_3': 'Problem Solving', 'hp_4': 'Teamwork', 'hp_5': 'Creativity and Automation',
+                'curriculo_experiencia_titulo': 'Experience',
+                'exp1_periodo': '2025 - Present', 'exp1_cargo': 'Junior Account Analyst – SEADRILL Account',
+                'exp2_periodo': '2024 - 2025', 'exp2_cargo': 'Junior Account Assistant – MODEC Account',
+                'exp3_periodo': '2019 - 2023', 'exp3_cargo': 'Designer & Video Editor',
+                'curriculo_formacao_titulo': 'Academic Background',
+                'formacao_curso': 'Logistics (in progress) - Estácio', // "Technologist" removed
+                'curriculo_contribuicao_titulo': 'How I Can Contribute',
+                'contri_1': 'Dashboard development', 'contri_2': 'Performance indicators (KPIs)', 'contri_3': 'Process automation with Power Automate', 'contri_4': 'Analysis and treatment of logistics data', 'contri_5': 'Optimization of workflows and order tracking',
+                'curriculo_hobbies_titulo': 'Hobbies and Interests',
+                'hobby_1': 'Road running', 'hobby_2': 'Content creation', 'hobby_3': 'Technology and data',
+                'portfolio_titulo': 'Portfolio & Projects',
+                'proj1_titulo': 'Order Tracking Process Optimization', 'proj1_data': '📦 March 2025', 'proj1_resumo': 'Project focused on redesigning follow-up and order control routines with the client. The action involved creating new standardized *remarks*, improving communication and resulting in a faster, more traceable process, reducing delays and strengthening information quality.',
+                'proj2_titulo': 'Automation in Expediting Processes', 'proj2_data': '⚙️ July 2025', 'proj2_resumo': 'Development of automated flows using Power Automate, focused on eliminating manual tasks and optimizing PO tracking. Automations now notify responsible parties, update statuses, and generate real-time alerts, increasing productivity and reducing human error.',
+                'proj3_titulo': 'In-House Power BI for the Expediting Team', 'proj3_data': '📊 August 2025', 'proj3_resumo': 'Development of an interactive Power BI dashboard that consolidates tracking data, performance, and cycle time. The panel provides a 360º view of the account status, allowing leadership to make real-time data-driven decisions.\n\n**Technologies:** Power BI, Power Query (M), DAX, SAP Data Source. **Focus:** Clear visualization of logistical bottlenecks and monitoring of delivery KPIs.',
+                'proj4_titulo': 'Personal Portfolio Website Creation', 'proj4_data': '💻 October 2025', 'proj4_resumo': 'Complete development of my personal portfolio website, a project that reflects both my professional identity and my technical and creative skills. It is a practical example of my ability to combine aesthetics, clarity, and functionality, demonstrating mastery in design, information analysis, and visual communication.',
+                'btn_download_cv': 'Download Resume (PDF)',
+                'warning_title': '⚠️ Confidentiality Warning',
+                'warning_text': 'The projects presented below have had all names of people, entities, values, and sensitive information adjusted or replaced with fictitious data, in order to preserve the confidentiality and the integrity of the organizations involved. The contexts and results remain true to the real experiences lived during the development of each project.'
+            }
+        };
+
+        // --- FUNÇÕES DE NAVEGAÇÃO E INICIALIZAÇÃO ---
+
+        function setLanguage(lang) {
+            const currentTranslation = translations[lang];
+
+            document.getElementById('title-tag').textContent = currentTranslation['title-tag'];
+            
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (currentTranslation[key]) {
+                    element.textContent = currentTranslation[key];
+                }
+            });
+
+            // Atualiza o texto da formação acadêmica especificamente, pois não usa data-lang-key no span
+            if (document.querySelector('.formacao-academica p')) {
+                document.querySelector('.formacao-academica p').textContent = currentTranslation['formacao_curso'];
+            }
+
+            // Re-renderiza o conteúdo do modal se estiver aberto
+            if (document.getElementById('project-modal').style.display === 'flex') {
+                const projectId = document.getElementById('project-modal').dataset.projectId;
+                if (projectId) {
+                    loadProjectContent(projectId, lang);
+                }
+            }
+            
+            // Atualiza o estado visual dos botões de bandeira
+            document.querySelectorAll('.flag-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`lang-${lang}`).classList.add('active');
+            
+            renderSoftwareSkills(); 
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.style.display = 'flex';
+            }
+
+            const targetNavItem = document.getElementById(`nav-${sectionId}`);
+            if (targetNavItem) {
+                targetNavItem.classList.add('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSoftwareSkills();
+            setLanguage('pt');
+            showSection('inicio');
+            
+            document.getElementById('project-modal').addEventListener('click', closeProjectDetails);
+            document.querySelector('.modal-content').addEventListener('click', (e) => e.stopPropagation());
+        });
+    </script>
+
+</body>
+</html>
